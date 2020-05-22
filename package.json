@@ -46,5 +46,11 @@
     "eslint": "^6.8.0",
     "eslint-plugin-flowtype": "^3.13.0",
     "typedoc": "^0.16.9"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "src/index.ts",
+      "src/serviceWorker.ts"
+    ]
   }
 }
