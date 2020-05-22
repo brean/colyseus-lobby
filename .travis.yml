@@ -1,0 +1,27 @@
+language: node_js
+
+node_js:
+  - '10'
+  - '11'
+  - '12'
+  - '13'
+
+dist: trusty
+
+cache:
+  directories:
+    - node_module
+
+notifications:
+  email:
+    on_failure: change
+
+install:
+  - npm install
+  - npm install --save-dev
+
+script:
+  - npm run docs
+  - npm run eslint
+  - npm run test -- --coverage --watchAll=false
+  - cat ./coverage/lcov.info | ./node_modules/.bin/coveralls --verbose
