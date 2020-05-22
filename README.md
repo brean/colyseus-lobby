@@ -1,4 +1,4 @@
-# TypeScript+React starter (+ testing)
+# TypeScript+React+Material(RMWC) starter (+ testing)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -37,7 +37,7 @@ If you like to host your project on a private server or with your own ci-integra
 
 ### Material Design Wrapper for frontend UI
 
-This branch uses the material Design UI, take a look at other branches if you like to use another ui frontend.
+This branch uses the [React Material Wrapper Components](http://rmwc.io), take a look at other branches if you like to use another ui frontend.
 
 ## Available Scripts
 
