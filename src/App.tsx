@@ -1,28 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Button } from '@rmwc/button';
-import '@material/button/dist/mdc.button.css';
+
+import { createHashHistory } from "history";
+import { Router, Route } from "react-router-dom";
+
+import { RoomList } from './components/RoomList';
+import { Room } from './components/Room';
+
+const history = createHashHistory();
 
 const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.<br />
-          <Button raised icon="favorite" theme={['secondaryBg', 'onSecondary']}>Hello From RMWC.io!</Button>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router history={history}>
+      <Route exact path="/" component={RoomList} />
+      <Route path="/room/:roomId" component={Room} />
+    </Router>      
   );
 }
 
