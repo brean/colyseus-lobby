@@ -4,7 +4,7 @@ import { Client, Room } from 'colyseus.js';
 import RoomMeta from "./RoomMeta";
 
 class AppData {
-  history: History<History.PoorMansUnknown>;
+  history: History<unknown>;
   client: Client;
   // currently joined room
   currentRoom?: Room;

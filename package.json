@@ -5,6 +5,6 @@
     "server": "cd server && npm run watch"
   },
   "dependencies": {
-    "concurrently": "^5.2.0"
+    "concurrently": "^5.3.0"
   }
 }
