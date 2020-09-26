@@ -6,6 +6,7 @@ import {
   DataTable, DataTableContent, DataTableHead, DataTableRow,
   DataTableHeadCell, DataTableBody, DataTableCell
 } from '@rmwc/data-table';
+import { Client } from 'colyseus.js';
 
 import { GAME_MODES, GAME_MAPS } from '../Settings';
 
@@ -16,6 +17,7 @@ import '@rmwc/chip/styles';
 type SelectedFilter = {
   game_modes: Map<string, boolean>;
   game_maps: Map<string, boolean>;
+  client: Client;
 }
 
 class RoomFilter extends Component<SelectedFilter, SelectedFilter> {
@@ -23,7 +25,8 @@ class RoomFilter extends Component<SelectedFilter, SelectedFilter> {
     super(props);
     this.state = {
       game_modes: props.game_modes,
-      game_maps: props.game_maps
+      game_maps: props.game_maps,
+      client: props.client
     };
   }
 

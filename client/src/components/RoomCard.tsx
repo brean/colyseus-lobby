@@ -3,31 +3,37 @@ import { GridCell } from '@rmwc/grid';
 import { Card, CardMedia, CardPrimaryAction } from '@rmwc/card';
 import { Chip, ChipSet } from '@rmwc/chip';
 import { Typography } from '@rmwc/typography';
-
-import Game from '../Game';
+import { History } from "history";
+import { Client, RoomAvailable } from 'colyseus.js';
+import RoomMeta from '../RoomMeta';
 
 import '@rmwc/grid/styles';
 import '@rmwc/typography/styles';
 import '@rmwc/card/styles';
 import '@rmwc/chip/styles';
 
-class RoomCard extends Component<{game: Game}>{
+class RoomCard extends Component<{room: RoomAvailable<RoomMeta>, client: Client, history: History<any>}>{
 
   render() {
-    let game: Game = this.props.game;
+    let room: RoomAvailable<RoomMeta> = this.props.room;
+    let roomMeta: RoomMeta|undefined = room.metadata;
+    let roomUrl = `/room/${this.props.room.roomId}`;
+    let props = this.props;
     return (
-      <GridCell span={2}>
-        <Card>
+      <GridCell span={2} key={room.roomId}>
+        <Card onClick={() => {
+          props.history.push(roomUrl);
+        }}>
           <CardPrimaryAction>
             <CardMedia
               sixteenByNine
               style={{
-                backgroundImage: 'url(/maps/' + game.map + '.png)'
+                backgroundImage: 'url(/maps/' + roomMeta?.map + '.png)'
               }}
             />
             <div style={{ padding: '0 1rem 1rem 1rem' }}>
               <Typography use="headline6" tag="h2">
-                { game.name }
+                { roomMeta?.name }
               </Typography>
               <Typography
                 use="subtitle2"
@@ -35,11 +41,11 @@ class RoomCard extends Component<{game: Game}>{
                 theme="textSecondaryOnBackground"
                 style={{ marginTop: '-1rem' }}
               >
-                { game.player_active }/{ game.player_max } player
+                { room.clients }/{ room.maxClients || '∞' } player
               </Typography>
               <ChipSet>
-                <Chip>{ game.mode }</Chip>
-                <Chip>{ game.map }</Chip>
+                <Chip>{ roomMeta?.mode }</Chip>
+                <Chip>{ roomMeta?.map }</Chip>
               </ChipSet>
             </div>
           </CardPrimaryAction>

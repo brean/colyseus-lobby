@@ -1,9 +1,6 @@
 language: node_js
 
 node_js:
-  - '10'
-  - '11'
-  - '12'
   - '13'
 
 dist: trusty
@@ -17,11 +14,13 @@ notifications:
     on_failure: change
 
 install:
-  - npm install
-  - npm install --save-dev
+  - cd client && npm install
+  - cd client && npm install --save-dev
+  - cd server && npm install
+  - cd server && npm install --save-dev
 
 script:
-  - npm run docs
-  - npm run eslint
-  - npm run test -- --coverage --watchAll=false
-  - cat ./coverage/lcov.info | ./node_modules/.bin/coveralls --verbose
+  - cd client && npm run docs
+  - cd client && npm run eslint
+  - cd client && npm run test -- --coverage --watchAll=false
+  - cat ./client/coverage/lcov.info | ./client/node_modules/.bin/coveralls --verbose
