@@ -6,7 +6,7 @@ import {
 import { Grid, GridCell } from '@rmwc/grid';
 import { Card, CardPrimaryAction } from '@rmwc/card';
 import { Typography } from '@rmwc/typography';
-import { Client, RoomAvailable } from 'colyseus.js';
+import { RoomAvailable, Client } from 'colyseus.js';
 
 import '@rmwc/icon/styles';
 import '@rmwc/top-app-bar/styles';
@@ -15,11 +15,11 @@ import '@rmwc/card/styles';
 import '@rmwc/grid/styles';
 import '@rmwc/typography/styles';
 
-import AppData from '../AppData';
-import RoomMeta from '../RoomMeta';
+import AppData from '../model/AppData';
+import RoomMeta from '../model/RoomMeta';
 import { RoomCard } from './RoomCard';
 import { RoomFilter } from './RoomFilter';
-import { GAME_MODES, GAME_MAPS } from '../Settings';
+import { GAME_MODES, GAME_MAPS } from '../model/Settings';
 
 type SelectedFilter = {
   game_modes: Map<string, boolean>;
@@ -38,7 +38,8 @@ class RoomList extends Component<{ appData: AppData }, SelectedFilter> {
   }
 
   toCard(room: RoomAvailable<RoomMeta>) {
-    return (<RoomCard 
+    return (<RoomCard
+      key={room.roomId} 
       client={this.props.appData.client}
       room={room}
       history={this.props.appData.history} />);
@@ -103,12 +104,10 @@ class RoomList extends Component<{ appData: AppData }, SelectedFilter> {
           {rows}
           <GridCell span={2}>
             <Card onClick={() => {
-              let roomMeta = new RoomMeta("Game "+new Date(), GAME_MODES[0], GAME_MAPS[0])
-              this.props.appData.client.create("my_room", roomMeta).then(room => {
+              // TODO: optional dialog or just create a game and change everything in there?
+              this.props.appData.client.create("game_room", {}).then(room => {
                 console.log("joined successfully", room);
-                console.log(this.props.appData.client)
                 this.props.appData.currentRoom = room;
-                this.props.appData.currentMeta = roomMeta;
                 this.joinRoom(room.id);
               }).catch(e => {
                 console.error("join error", e);

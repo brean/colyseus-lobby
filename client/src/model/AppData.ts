@@ -1,15 +1,13 @@
 import { createHashHistory, History } from "history";
 
-import { Client, Room } from 'colyseus.js';
-import RoomMeta from "./RoomMeta";
+import { Room, Client } from 'colyseus.js';
+
 
 class AppData {
   history: History<unknown>;
   client: Client;
   // currently joined room
   currentRoom?: Room;
-  // metadata for the currently joined room
-  currentMeta?: RoomMeta;
 
   constructor() {
     this.history = createHashHistory();

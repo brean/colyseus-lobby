@@ -21,6 +21,6 @@
   },
   "include": [
     "src",
-    "server"
+    "server", "src/model/RoomMeta.ts"
   ]
 }

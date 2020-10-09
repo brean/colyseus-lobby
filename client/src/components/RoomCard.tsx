@@ -5,7 +5,7 @@ import { Chip, ChipSet } from '@rmwc/chip';
 import { Typography } from '@rmwc/typography';
 import { History } from "history";
 import { Client, RoomAvailable } from 'colyseus.js';
-import RoomMeta from '../RoomMeta';
+import RoomMeta from '../model/RoomMeta';
 
 import '@rmwc/grid/styles';
 import '@rmwc/typography/styles';

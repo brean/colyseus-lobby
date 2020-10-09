@@ -6,7 +6,7 @@ import { Router, Route } from "react-router-dom";
 import { RoomList } from './components/RoomList';
 import { JoinedRoom } from './components/JoinedRoom';
 
-import AppData from './AppData';
+import AppData from './model/AppData';
 
 const appData:AppData = new AppData();
 

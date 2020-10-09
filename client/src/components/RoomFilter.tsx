@@ -8,7 +8,7 @@ import {
 } from '@rmwc/data-table';
 import { Client } from 'colyseus.js';
 
-import { GAME_MODES, GAME_MAPS } from '../Settings';
+import { GAME_MODES, GAME_MAPS } from '../model/Settings';
 
 import '@rmwc/icon/styles';
 import '@rmwc/data-table/styles';
