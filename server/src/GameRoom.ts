@@ -36,9 +36,11 @@ export class GameRoom extends Room {
       options.started = false
       this.setMetadata(options);
       console.log('create: opt', options)
-      this.onMessage('change_color', (client, color) => {
+      this.onMessage('change_player', (client, player) => {
         // handle player message
-        state.players[client.sessionId].color = color;
+        const p = state.players[client.sessionId]
+        p.color = player.color;
+        p.name = player.name
       });
       this.onMessage('set_mode', (client, mode) => {
         // handle player message

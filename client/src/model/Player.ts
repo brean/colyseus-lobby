@@ -16,6 +16,13 @@ class Player {
     this.color = data.color
     this.admin = data.admin
   }
+
+  toJSON() {
+    return {
+      name: this.name,
+      color: this.color
+    }
+  }
 }
 
 export default Player;
