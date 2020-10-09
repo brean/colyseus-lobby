@@ -6,40 +6,28 @@ import {
   DataTable, DataTableContent, DataTableHead, DataTableRow,
   DataTableHeadCell, DataTableBody, DataTableCell
 } from '@rmwc/data-table';
-import { Client } from 'colyseus.js';
-
-import { GAME_MODES, GAME_MAPS } from '../model/Settings';
 
 import '@rmwc/icon/styles';
 import '@rmwc/data-table/styles';
 import '@rmwc/chip/styles';
 
 type SelectedFilter = {
-  game_modes: Map<string, boolean>;
-  game_maps: Map<string, boolean>;
-  client: Client;
+  gameModes: Map<string, boolean>
+  gameMaps: Map<string, boolean>
+  toggleMap: Function
+  toggleMode: Function
 }
 
-class RoomFilter extends Component<SelectedFilter, SelectedFilter> {
-  constructor(props: SelectedFilter) {
-    super(props);
-    this.state = {
-      game_modes: props.game_modes,
-      game_maps: props.game_maps,
-      client: props.client
-    };
-  }
-
-  createCells(cellContent: Map<string, boolean>, original: Array<string>) {
+class RoomFilter extends Component<SelectedFilter> {
+  createCells(cellContent: Map<string, boolean>, toggleFunc: Function) {
     let cells = [];
-    for (let mode of original) {
+    for (let cellKey of cellContent.keys()) {
       cells.push(<Chip
-        key={'game_mode_' + mode}
-        label={mode}
-        selected={cellContent.get(mode)}
-        onInteraction={evt => {
-          cellContent.set(mode, !cellContent.get(mode));
-          this.forceUpdate();
+        key={'game_' + cellKey}
+        label={cellKey}
+        selected={cellContent.get(cellKey)}
+        onInteraction={() => {
+          toggleFunc(cellKey)
         }}
       />);
     }
@@ -66,7 +54,7 @@ class RoomFilter extends Component<SelectedFilter, SelectedFilter> {
               <DataTableCell>Game Mode</DataTableCell>
               <DataTableCell alignEnd>
                 <ChipSet choice>
-                  { this.createCells(this.state.game_modes, GAME_MODES) }
+                  { this.createCells(this.props.gameModes, this.props.toggleMode) }
                 </ChipSet>
               </DataTableCell>
             </DataTableRow>
@@ -74,7 +62,7 @@ class RoomFilter extends Component<SelectedFilter, SelectedFilter> {
               <DataTableCell>Map</DataTableCell>
               <DataTableCell>
                 <ChipSet choice>
-                  { this.createCells(this.state.game_maps, GAME_MAPS) }
+                  { this.createCells(this.props.gameMaps, this.props.toggleMap) }
                 </ChipSet>
               </DataTableCell>
             </DataTableRow>

@@ -22,8 +22,8 @@ import { RoomFilter } from './RoomFilter';
 import { GAME_MODES, GAME_MAPS } from '../model/Settings';
 
 type SelectedFilter = {
-  game_modes: Map<string, boolean>;
-  game_maps: Map<string, boolean>;
+  gameModes: Map<string, boolean>;
+  gameMaps: Map<string, boolean>;
 }
 
 class RoomList extends Component<{ appData: AppData }, SelectedFilter> {
@@ -31,18 +31,19 @@ class RoomList extends Component<{ appData: AppData }, SelectedFilter> {
 
   constructor(props: {appData: AppData}) {
     super(props);
+    let gameMaps: Map<string, boolean> = new Map<string, boolean>();
+    for (let map of GAME_MAPS) {
+      gameMaps.set(map, true)
+    }
+    let gameModes: Map<string, boolean> = new Map<string, boolean>();
+    for (let mode of GAME_MODES) {
+      gameModes.set(mode, true);
+    }
     this.state = {
-      game_modes: new Map<string, boolean>(),
-      game_maps: new Map<string, boolean>()
+      gameModes: gameModes,
+      gameMaps: gameMaps
     };
-  }
 
-  toCard(room: RoomAvailable<RoomMeta>) {
-    return (<RoomCard
-      key={room.roomId} 
-      client={this.props.appData.client}
-      room={room}
-      history={this.props.appData.history} />);
   }
 
   componentDidMount() {
@@ -62,21 +63,27 @@ class RoomList extends Component<{ appData: AppData }, SelectedFilter> {
     this.props.appData.history.push(roomUrl);
   }
 
+  toggle(map: Map<String, boolean>) {
+    return (name: string) => {
+      map.set(name, !map.get(name))
+      this.setState(this.state)
+    }
+  }
+
   render() {
     let rows: any[] = [];
     this.rooms.forEach((room: RoomAvailable<RoomMeta>) => {
-      rows.push(this.toCard(room));
+      const map: string = room.metadata ? room.metadata.map : ''
+      const mode: string = room.metadata ? room.metadata.mode : ''
+      if (this.state.gameMaps.get(map) && 
+        this.state.gameModes.get(mode)) {
+        rows.push((<RoomCard
+          key={room.roomId} 
+          client={this.props.appData.client}
+          room={room}
+          history={this.props.appData.history} />));
+      }
     });
-
-    let game_maps: Map<string, boolean> = new Map<string, boolean>();
-    for (let map of GAME_MAPS) {
-      game_maps.set(map, true)
-    }
-
-    let game_modes: Map<string, boolean> = new Map<string, boolean>();
-    for (let mode of GAME_MODES) {
-      game_modes.set(mode, true);
-    }
 
     return (
       <>
@@ -94,9 +101,10 @@ class RoomList extends Component<{ appData: AppData }, SelectedFilter> {
         <Grid>
           <GridCell span={12}>
             <RoomFilter
-              game_modes={game_modes}
-              game_maps={game_maps}
-              client={this.props.appData.client} />
+              gameModes={this.state.gameModes}
+              gameMaps={this.state.gameMaps}
+              toggleMap={this.toggle(this.state.gameMaps).bind(this)}
+              toggleMode={this.toggle(this.state.gameModes).bind(this)} />
           </GridCell>
         </Grid>
         

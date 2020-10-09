@@ -70,6 +70,7 @@ class PlayerCard extends Component<
           <br />
           <TextField outlined label="Player Name" 
             value={player.name}
+            maxLength={31}
             onChange={evt => {
               player.name = (evt.target as HTMLInputElement).value
               this.setState({player: player})

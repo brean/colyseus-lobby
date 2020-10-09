@@ -89,13 +89,6 @@ class JoinedRoom extends Component<{ appData: AppData, match: any }, RoomMeta> {
 
   }
 
-  toCard(currentPlayer: Player, player: Player): any {
-    return (<PlayerCard
-      appData={this.props.appData}
-      key={player.id}
-      player={player} />);
-  }
-
   render() {
     let rows: any[] = [];
     const appData = this.props.appData
@@ -110,7 +103,10 @@ class JoinedRoom extends Component<{ appData: AppData, match: any }, RoomMeta> {
     Object.entries(this.players).forEach(
       ([key, player]) => {
         if (currentPlayer) {
-          rows.push(this.toCard(currentPlayer, player))
+          rows.push((<PlayerCard
+            appData={this.props.appData}
+            key={player.id}
+            player={player} />))
         }
       }
     );
